@@ -99,7 +99,7 @@ class StorageTest(TestCase):
       self.assertEqual(log_info.call_count, 2)
       self.assertRegexpMatches(log_info.call_args[0][0], 'Exception during fetch for \[\'a\'\] after [-.e0-9]+s: TestFinder.find_nodes')
 
-    def test_fetch_some_failed(self):
+  def test_fetch_some_failed(self):
     # all finds failed
     store = Store(
       finders=[TestFinder(), RemoteFinder()]
