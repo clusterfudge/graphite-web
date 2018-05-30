@@ -100,16 +100,15 @@ class StorageTest(TestCase):
       self.assertRegexpMatches(log_info.call_args[0][0], 'Exception during fetch for \[\'a\'\] after [-.e0-9]+s: TestFinder.find_nodes')
 
   def test_fetch_some_failed(self):
-    # all finds failed
+    # some finders failed
     store = Store(
       finders=[TestFinder(), RemoteFinder()]
     )
 
     with patch('graphite.storage.log.info') as log_info:
-      with self.assertRaisesRegexp(Exception, '1 requests failed for fetch for \[\'a\'\] \(2\)'):
-        list(store.fetch(['a'], 1, 2, 3, {}))
+      list(store.fetch(['a'], 1, 2, 3, {}))
       self.assertEqual(log_info.call_count, 1)
-      self.assertRegexpMatches(log_info.call_args[0][0], 'Exception during fetch for \[\'a\'\] after [-.e0-9]+s: TestFinder.find_nodes')
+
 
     store = Store(
       finders=[TestFinder(), TestFinder()]
@@ -129,7 +128,7 @@ class StorageTest(TestCase):
     )
 
     with patch('graphite.storage.log.info') as log_info:
-      with self.assertRaisesRegexp(Exception, 'All requests failed for fetch for \[\'a\'\] \(1\)'):
+      with self.assertRaisesRegexp(Exception, '1 request(s) failed for fetch for \[\'a\'\] \(1\)'):
         list(store.fetch(['a'], 1, 2, 3, {}))
       self.assertEqual(log_info.call_count, 1)
       self.assertRegexpMatches(log_info.call_args[0][0], 'Exception during fetch for \[\'a\'\] after [-.e0-9]+s: TestFinder.find_nodes')
