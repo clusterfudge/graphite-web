@@ -142,7 +142,7 @@ class StorageTest(TestCase):
         list(store.fetch(['a'], 1, 2, 3, {}))
       self.assertEqual(log_info.call_count, 2)
       self.assertRegexpMatches(log_info.call_args[0][0], 'Exception during fetch for \[\'a\'\] after [-.e0-9]+s: TestFinder.find_nodes')
-  
+
   def test_find(self):
     disabled_finder = DisabledFinder()
     legacy_finder = LegacyFinder()
